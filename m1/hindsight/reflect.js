@@ -1,28 +1,79 @@
 const { hindsight, bankId } = require("./client");
 
+const incidentReflectionSchema = {
+  type: "object",
+  properties: {
+    summary: {
+      type: "string"
+    },
+    likelyCauses: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
+    successfulActions: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
+    unsuccessfulActions: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
+    investigationSteps: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
+    lessonsLearned: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    }
+  },
+  required: [
+    "summary",
+    "likelyCauses",
+    "successfulActions",
+    "unsuccessfulActions",
+    "investigationSteps",
+    "lessonsLearned"
+  ]
+};
+
 async function reflectOnIncident(incident) {
   if (!incident) {
     throw new Error("Incident is required for reflection.");
   }
 
   const prompt = [
-    `Analyze this factory incident:`,
+    "Analyze the current factory incident using relevant historical memory.",
+    "",
     `Machine: ${incident.machineId || "unknown"}`,
     `Title: ${incident.title || ""}`,
     `Description: ${incident.description || ""}`,
     `Symptoms: ${(incident.symptoms || []).join(", ")}`,
     "",
-    "Use relevant historical memory to identify:",
-    "1. likely causes",
-    "2. previously successful actions",
-    "3. previously unsuccessful actions",
-    "4. recommended investigation sequence",
-    "5. lessons that should be retained for future incidents"
+    "Rules:",
+    "- Use historical evidence when relevant.",
+    "- Do not invent previous incidents or actions.",
+    "- Clearly distinguish unavailable history from known history.",
+    "- Prefer evidence-backed causes and actions.",
+    "- Return a practical investigation sequence."
   ].join("\n");
 
-  return hindsight.reflect(bankId, prompt);
+  return hindsight.reflect(bankId, prompt, {
+    response_schema: incidentReflectionSchema
+  });
 }
 
 module.exports = {
-  reflectOnIncident
+  reflectOnIncident,
+  incidentReflectionSchema
 };
