@@ -23,6 +23,7 @@
   "homepage": "https://github.com/priyanshu202007/ForgeMind#readme",
   "dependencies": {
     "@vectorize-io/hindsight-client": "^0.10.1",
-    "dotenv": "^18.0.4"
+    "dotenv": "^18.0.4",
+    "groq-sdk": "^1.6.0"
   }
 }
