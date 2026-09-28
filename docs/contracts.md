@@ -19,26 +19,28 @@
 }
 {
   "incidentId": "INC-001",
-  "summary": "Likely coolant-flow restriction",
-  "recommendations": [
-    {
-      "step": 1,
-      "action": "Inspect coolant filter and flow path",
-      "reason": "A similar historical incident was resolved after identifying a blocked filter."
-    }
-  ],
+  "summary": "Historical analysis summary",
+  "recommendations": [],
   "historicalEvidence": [
     {
       "memoryId": "memory-id",
-      "relevance": "high",
+      "relevance": 1.08,
+      "type": "root_cause",
       "summary": "Previous CNC-001 overheating incident linked to a restricted coolant filter.",
-      "outcome": "Filter replacement restored normal operation.",
-      "source": "hindsight"
+      "source": "hindsight",
+      "tags": [
+        "incident:INC-001",
+        "machine:CNC-001",
+        "domain:factory"
+      ]
     }
   ],
   "memory": {
     "used": true,
     "retrievedCount": 1
+  },
+  "reflection": {
+    "rawText": "Historical reasoning from Hindsight."
   }
 }
 {

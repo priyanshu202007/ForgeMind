@@ -1,19 +1,108 @@
-const { retainIncident } = require("../hindsight/retain");
 const { recallRelevantIncidents } = require("../hindsight/recall");
 const { reflectOnIncident } = require("../hindsight/reflect");
+const { hindsight, bankId } = require("../hindsight/client");
+const { buildAnalysisResponse } = require("../ai/response");
+
+const MAX_HISTORICAL_EVIDENCE = 3;
+
+function normalizeText(value) {
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function inferEvidenceType(text) {
+  const lower = normalizeText(text).toLowerCase();
+
+  if (
+    lower.includes("caused") ||
+    lower.includes("cause") ||
+    lower.includes("due to")
+  ) {
+    return "root_cause";
+  }
+
+  if (
+    lower.includes("resolved") ||
+    lower.includes("replaced") ||
+    lower.includes("restored")
+  ) {
+    return "successful_action";
+  }
+
+  if (
+    lower.includes("lesson") ||
+    lower.includes("inspect") ||
+    lower.includes("before")
+  ) {
+    return "lesson";
+  }
+
+  return "historical_context";
+}
+
+function buildEvidenceKey(item) {
+  const text = normalizeText(item?.text).toLowerCase();
+
+  return text
+    .replace(/\| when:.*$/i, "")
+    .replace(/\s+/g, " ")
+    .replace(/[.,:;]+/g, "")
+    .trim();
+}
+
+function buildClaimKey(type, summary) {
+  const normalized = normalizeText(summary)
+    .toLowerCase()
+    .replace(/\| when:.*$/i, "")
+    .replace(/\s+/g, " ")
+    .replace(/[.,:;]+/g, "")
+    .trim();
+
+  return `${type}:${normalized}`;
+}
 
 function mapHistoricalEvidence(recallResult) {
   const results = Array.isArray(recallResult?.results)
     ? recallResult.results
     : [];
 
-  return results.map((item) => ({
-    memoryId: item.id,
-    relevance: item.scores?.final ?? null,
-    summary: item.text,
-    source: "hindsight",
-    tags: item.tags || []
-  }));
+  const seenClaims = new Set();
+  const normalized = [];
+
+  for (const item of results) {
+    const summary = normalizeText(item?.text);
+
+    if (!summary) {
+      continue;
+    }
+
+    const type = inferEvidenceType(summary);
+    const claimKey = buildClaimKey(type, summary);
+
+    if (seenClaims.has(claimKey)) {
+      continue;
+    }
+
+    seenClaims.add(claimKey);
+
+    normalized.push({
+      memoryId: item.id,
+      relevance:
+        typeof item.scores?.final === "number"
+          ? item.scores.final
+          : null,
+      type,
+      summary,
+      source: "hindsight",
+      tags: Array.isArray(item.tags) ? item.tags : []
+    });
+  }
+
+  return normalized
+    .sort(
+      (a, b) =>
+        (b.relevance ?? -Infinity) - (a.relevance ?? -Infinity)
+    )
+    .slice(0, MAX_HISTORICAL_EVIDENCE);
 }
 
 async function analyzeIncidentWithMemory(incident) {
@@ -21,34 +110,18 @@ async function analyzeIncidentWithMemory(incident) {
     throw new Error("incidentId is required.");
   }
 
-  // 1. Find relevant historical memories.
   const recallResult = await recallRelevantIncidents(incident);
 
   const historicalEvidence = mapHistoricalEvidence(recallResult);
 
-  // 2. Ask Hindsight to synthesize the historical context.
   const reflection = await reflectOnIncident(incident);
 
-  return {
-    incidentId: incident.incidentId,
-
-    summary:
-      reflection?.text ||
-      "No reflection was returned.",
-
-    historicalEvidence,
-
-    memory: {
-      used: historicalEvidence.length > 0,
-      retrievedCount: historicalEvidence.length
-    },
-
-    reflection: {
-      rawText: reflection?.text || null
-    }
-  };
+  return buildAnalysisResponse({
+  incidentId: incident.incidentId,
+  reflection,
+  historicalEvidence
+});
 }
-
 async function retainIncidentOutcome(outcome) {
   if (!outcome?.incidentId) {
     throw new Error("incidentId is required.");
@@ -62,8 +135,6 @@ async function retainIncidentOutcome(outcome) {
     `Resolution status: ${outcome.resolutionStatus || "unknown"}`,
     `Notes: ${outcome.notes || ""}`
   ].join("\n");
-
-  const { hindsight, bankId } = require("../hindsight/client");
 
   return hindsight.retain(bankId, content, {
     context: "ForgeMind factory incident outcome",
@@ -79,5 +150,6 @@ async function retainIncidentOutcome(outcome) {
 
 module.exports = {
   analyzeIncidentWithMemory,
-  retainIncidentOutcome
+  retainIncidentOutcome,
+  mapHistoricalEvidence
 };
