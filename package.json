@@ -1,0 +1,27 @@
+{
+  "name": "forgemind",
+  "version": "1.0.0",
+  "description": "AI-powered factory operational memory that learns from past incidents and helps teams investigate and resolve new defects.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/priyanshu202007/ForgeMind.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/priyanshu202007/ForgeMind/issues"
+  },
+  "homepage": "https://github.com/priyanshu202007/ForgeMind#readme",
+  "dependencies": {
+    "@vectorize-io/hindsight-client": "^0.10.1"
+  }
+}
