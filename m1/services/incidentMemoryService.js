@@ -1,7 +1,6 @@
 const { recallRelevantIncidents } = require("../hindsight/recall");
 const { reflectOnIncident } = require("../hindsight/reflect");
 const { hindsight, bankId } = require("../hindsight/client");
-const { buildAnalysisResponse } = require("../ai/response");
 const { analyzeWithAI } = require("../ai/analyzer");
 
 const MAX_HISTORICAL_EVIDENCE = 3;
