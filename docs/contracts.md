@@ -17,7 +17,6 @@
     "operatorNotes": "Machine restarted once before escalation"
   }
 }
-## Analysis Response
 {
   "incidentId": "INC-001",
   "summary": "Likely coolant-flow restriction",
@@ -42,7 +41,6 @@
     "retrievedCount": 1
   }
 }
-## Outcome Input
 {
   "incidentId": "INC-001",
   "actionTaken": "Replaced coolant filter",
