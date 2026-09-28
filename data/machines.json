@@ -1,0 +1,38 @@
+
+[
+  {
+    "machine_id": "CNC-01",
+    "name": "CNC Milling Machine 01",
+    "machine_type": "CNC milling machine",
+    "production_line": "Machining",
+    "status": "operational"
+  },
+  {
+    "machine_id": "CNC-02",
+    "name": "CNC Turning Machine 02",
+    "machine_type": "CNC turning machine",
+    "production_line": "Machining",
+    "status": "operational"
+  },
+  {
+    "machine_id": "PRESS-01",
+    "name": "Hydraulic Press 01",
+    "machine_type": "Hydraulic press",
+    "production_line": "Forming",
+    "status": "operational"
+  },
+  {
+    "machine_id": "COOL-01",
+    "name": "Coolant System 01",
+    "machine_type": "Coolant system",
+    "production_line": "Machining",
+    "status": "operational"
+  },
+  {
+    "machine_id": "CONV-01",
+    "name": "Conveyor 01",
+    "machine_type": "Conveyor",
+    "production_line": "Material Handling",
+    "status": "operational"
+  }
+]
