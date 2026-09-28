@@ -1,0 +1,33 @@
+
+[
+  {
+    "test_id": "TC-001",
+    "query": "CNC-01 has a rough surface finish and visible tool marks",
+    "expected_incident_id": "INC-001",
+    "expected_root_cause": "Worn cutting tool"
+  },
+  {
+    "test_id": "TC-002",
+    "query": "CNC-02 is vibrating and producing chatter marks",
+    "expected_incident_id": "INC-003",
+    "expected_root_cause": "Loose workpiece fixture"
+  },
+  {
+    "test_id": "TC-003",
+    "query": "Coolant flow is low and machining temperature is increasing",
+    "expected_incident_id": "INC-007",
+    "expected_root_cause": "Blocked coolant filter"
+  },
+  {
+    "test_id": "TC-004",
+    "query": "Hydraulic press is producing incomplete formed parts",
+    "expected_incident_id": "INC-005",
+    "expected_root_cause": "Hydraulic fluid level below recommended range"
+  },
+  {
+    "test_id": "TC-005",
+    "query": "Conveyor belt is drifting to one side",
+    "expected_incident_id": "INC-009",
+    "expected_root_cause": "Incorrect belt tracking"
+  }
+]
