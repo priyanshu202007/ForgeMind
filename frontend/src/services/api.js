@@ -71,3 +71,9 @@ export function analyzeIncident(payload) {
     method: "POST",
   });
 }
+export function retainOutcome(payload) {
+	return request("/api/outcome", {
+		...withJsonBody(payload),
+		method: "POST",
+	});
+}
