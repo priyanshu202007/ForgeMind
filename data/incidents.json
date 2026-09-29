@@ -1,0 +1,113 @@
+
+[
+  {
+    "incident_id": "INC-001",
+    "machine_id": "CNC-01",
+    "date": "2026-01-12",
+    "defect": "Poor surface finish",
+    "symptoms": ["Rough machined surface", "Visible tool marks"],
+    "root_cause": "Worn cutting tool",
+    "resolution": "Replaced the cutting tool and verified surface finish",
+    "outcome": "Defect resolved",
+    "severity": "medium"
+  },
+  {
+    "incident_id": "INC-002",
+    "machine_id": "CNC-01",
+    "date": "2026-02-05",
+    "defect": "Dimensional inaccuracy",
+    "symptoms": ["Part diameter outside tolerance", "Inconsistent measurements"],
+    "root_cause": "Incorrect tool offset",
+    "resolution": "Corrected tool offset and inspected a test component",
+    "outcome": "Dimensions returned within tolerance",
+    "severity": "high"
+  },
+  {
+    "incident_id": "INC-003",
+    "machine_id": "CNC-02",
+    "date": "2026-02-18",
+    "defect": "Excessive machine vibration",
+    "symptoms": ["Unusual vibration", "Chatter marks on component"],
+    "root_cause": "Loose workpiece fixture",
+    "resolution": "Secured the fixture and performed a test run",
+    "outcome": "Vibration reduced and machining quality restored",
+    "severity": "high"
+  },
+  {
+    "incident_id": "INC-004",
+    "machine_id": "CNC-02",
+    "date": "2026-03-03",
+    "defect": "Poor surface finish",
+    "symptoms": ["Rough surface", "Chatter marks"],
+    "root_cause": "Worn cutting insert",
+    "resolution": "Replaced the cutting insert and inspected the finished part",
+    "outcome": "Surface finish improved",
+    "severity": "medium"
+  },
+  {
+    "incident_id": "INC-005",
+    "machine_id": "PRESS-01",
+    "date": "2026-03-14",
+    "defect": "Insufficient forming pressure",
+    "symptoms": ["Incomplete forming", "Part shape inconsistent"],
+    "root_cause": "Hydraulic fluid level below recommended range",
+    "resolution": "Maintenance personnel checked and replenished hydraulic fluid",
+    "outcome": "Forming pressure restored",
+    "severity": "high"
+  },
+  {
+    "incident_id": "INC-006",
+    "machine_id": "PRESS-01",
+    "date": "2026-04-02",
+    "defect": "Uneven formed components",
+    "symptoms": ["Uneven edges", "Inconsistent component shape"],
+    "root_cause": "Misaligned forming die",
+    "resolution": "Realigned the die and inspected sample components",
+    "outcome": "Component shape returned to specification",
+    "severity": "medium"
+  },
+  {
+    "incident_id": "INC-007",
+    "machine_id": "COOL-01",
+    "date": "2026-04-11",
+    "defect": "Coolant flow reduction",
+    "symptoms": ["Low coolant flow", "Increased machining temperature"],
+    "root_cause": "Blocked coolant filter",
+    "resolution": "Cleaned the filter and verified coolant flow",
+    "outcome": "Coolant flow restored",
+    "severity": "high"
+  },
+  {
+    "incident_id": "INC-008",
+    "machine_id": "COOL-01",
+    "date": "2026-05-09",
+    "defect": "Coolant leakage",
+    "symptoms": ["Coolant pooling near machine", "Reduced coolant level"],
+    "root_cause": "Loose coolant hose connection",
+    "resolution": "Maintenance personnel secured the connection and checked for leaks",
+    "outcome": "Leak stopped",
+    "severity": "medium"
+  },
+  {
+    "incident_id": "INC-009",
+    "machine_id": "CONV-01",
+    "date": "2026-05-21",
+    "defect": "Conveyor belt misalignment",
+    "symptoms": ["Belt drifting to one side", "Uneven belt movement"],
+    "root_cause": "Incorrect belt tracking",
+    "resolution": "Maintenance personnel adjusted belt tracking and performed a test run",
+    "outcome": "Belt movement returned to normal",
+    "severity": "medium"
+  },
+  {
+    "incident_id": "INC-010",
+    "machine_id": "CONV-01",
+    "date": "2026-06-06",
+    "defect": "Conveyor stoppage",
+    "symptoms": ["Belt stopped moving", "Material flow interrupted"],
+    "root_cause": "Obstruction near conveyor drive",
+    "resolution": "Authorized personnel isolated the equipment, removed the obstruction, and verified operation",
+    "outcome": "Conveyor operation restored",
+    "severity": "high"
+  }
+]

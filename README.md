@@ -1,72 +1,46 @@
-# ForgeMind
 
-> AI-powered factory operational memory that learns from past incidents and helps teams investigate and resolve new defects.
+# ForgeMind — Factory Data
 
-ForgeMind is a factory incident intelligence prototype that combines historical factory knowledge, Hindsight memory, and AI reasoning to help operators investigate new incidents using evidence from previous incidents.
+## Purpose
+This folder contains synthetic factory data for the ForgeMind hackathon prototype.
 
-## Current Project Status
+The data helps demonstrate how an AI assistant can retrieve similar historical incidents and provide evidence-based troubleshooting suggestions.
 
-The core services are implemented and being integrated:
+## Files
 
-- ✅ Factory data and domain logic
-- ✅ Hindsight memory integration
-- ✅ AI-powered incident analysis
-- ✅ FastAPI backend
-- ✅ Incident search
-- ✅ Risk/domain assessment
-- ✅ Outcome-to-memory learning loop
-- ✅ Frontend UI structure
-- 🔄 Frontend ↔ backend integration
-- 🔄 Final end-to-end integration and testing
+| File | Description |
+|---|---|
+| machines.json | 5 sample factory machines |
+| incidents.json | 10 synthetic historical incidents |
+| test_cases.json | 5 test queries with expected results |
+| seed_data/demo_incidents.json | Reserved for demo seed data |
 
-## How ForgeMind Works
+## Data Structure
 
-```text
-                    ┌─────────────────────┐
-                    │   Factory Operator  │
-                    │   Reports Incident  │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   React Frontend    │
-                    │      (M3)           │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │   FastAPI Backend   │
-                    │      (M2)            │
-                    └──────────┬──────────┘
-                               │
-                ┌──────────────┴──────────────┐
-                │                             │
-                ▼                             ▼
-      ┌─────────────────┐           ┌─────────────────┐
-      │ Factory Data &  │           │ AI + Hindsight  │
-      │ Domain Rules    │           │      (M1)       │
-      │      (M4)       │           └────────┬────────┘
-      └─────────────────┘                    │
-                                             ▼
-                                    ┌─────────────────┐
-                                    │ Historical      │
-                                    │ Memory + AI     │
-                                    │ Reasoning       │
-                                    └────────┬────────┘
-                                             │
-                                             ▼
-                                    ┌─────────────────┐
-                                    │ Recommendations │
-                                    │ + Evidence      │
-                                    └────────┬────────┘
-                                             │
-                                             ▼
-                                    ┌─────────────────┐
-                                    │ Operator Action │
-                                    └────────┬────────┘
-                                             │
-                                             ▼
-                                    ┌─────────────────┐
-                                    │ /api/outcome    │
-                                    │ Memory Retain   │
-                                    └─────────────────┘
+### Machines
+Each machine includes:
+- Machine ID
+- Name and machine type
+- Production line
+- Operational status
+
+### Incidents
+Each incident includes:
+- Incident ID and machine ID
+- Date and defect
+- Symptoms
+- Root cause
+- Resolution
+- Outcome and severity
+
+### Test Cases
+Each test case includes:
+- Test ID
+- User query
+- Expected incident ID
+- Expected root cause
+
+## Important Note
+All factory data is fictional and created for demonstration purposes. It does not represent real factory equipment or maintenance records.
+
+ForgeMind provides suggestions for investigation and does not replace qualified maintenance personnel or authorized safety procedures.
