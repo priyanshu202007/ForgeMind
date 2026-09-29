@@ -64,3 +64,10 @@ export function assessIncident(incidentId) {
 		}
 	);
 }
+
+export function analyzeIncident(payload) {
+  return request("/api/analyze", {
+    ...withJsonBody(payload),
+    method: "POST",
+  });
+}

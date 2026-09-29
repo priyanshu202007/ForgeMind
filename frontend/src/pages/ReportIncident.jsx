@@ -1,25 +1,63 @@
-
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
-  ArrowLeft,
   BrainCircuit,
   CheckCircle2,
 } from "lucide-react";
+import { analyzeIncident } from "../services/api";
 
 function ReportIncident() {
   const navigate = useNavigate();
 
+  const [machineId, setMachineId] = useState("");
+  const [title, setTitle] = useState("");
+  const [errorCode, setErrorCode] = useState("");
+  const [severity, setSeverity] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleInvestigate() {
+    setError("");
+
+    if (!machineId || !title || !severity || !description) {
+      setError("Please complete machine, issue, severity, and symptoms.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const result = await analyzeIncident({
+        incidentId: `UI-${Date.now()}`,
+        machineId,
+        timestamp: new Date().toISOString(),
+        title,
+        description: `${description}${errorCode ? ` Error code: ${errorCode}.` : ""}`,
+      });
+
+      navigate("/investigation", {
+        state: {
+          incident: {
+            machineId,
+            title,
+            errorCode,
+            severity,
+            description,
+          },
+          result,
+        },
+      });
+    } catch (err) {
+      setError(err.message || "Investigation failed.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="incident-page">
-   <button
-  className="investigate-button"
-  onClick={() => navigate("/investigation")}
->
-  <BrainCircuit size={17} />
-  Investigate with Factory Memory
-</button>
-
       <div className="incident-page-header">
         <div>
           <div className="eyebrow">INCIDENT MANAGEMENT</div>
@@ -47,12 +85,16 @@ function ReportIncident() {
           <div className="form-content">
             <label>
               Machine
-              <select>
-                <option>Select machine</option>
-                <option>CNC-04</option>
-                <option>PRESS-02</option>
-                <option>LATHE-03</option>
-                <option>ROBOT-07</option>
+              <select
+                value={machineId}
+                onChange={(event) => setMachineId(event.target.value)}
+              >
+                <option value="">Select machine</option>
+                <option value="CNC-01">CNC-01</option>
+                <option value="CNC-02">CNC-02</option>
+                <option value="PRESS-01">PRESS-01</option>
+                <option value="COOL-01">COOL-01</option>
+                <option value="CONV-01">CONV-01</option>
               </select>
             </label>
 
@@ -60,7 +102,9 @@ function ReportIncident() {
               Issue / symptom
               <input
                 type="text"
-                placeholder="e.g. Excessive vibration"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}
+                placeholder="e.g. Spindle overheating"
               />
             </label>
 
@@ -68,18 +112,23 @@ function ReportIncident() {
               Error code
               <input
                 type="text"
+                value={errorCode}
+                onChange={(event) => setErrorCode(event.target.value)}
                 placeholder="e.g. SP-881"
               />
             </label>
 
             <label>
               Severity
-              <select>
-                <option>Select severity</option>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-                <option>Critical</option>
+              <select
+                value={severity}
+                onChange={(event) => setSeverity(event.target.value)}
+              >
+                <option value="">Select severity</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+                <option value="Critical">Critical</option>
               </select>
             </label>
 
@@ -87,13 +136,28 @@ function ReportIncident() {
               Observed symptoms
               <textarea
                 rows="5"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
                 placeholder="Describe what the operator observed..."
               />
             </label>
 
-            <button className="investigate-button">
+            {error ? (
+              <div className="memory-note">
+                <AlertTriangle size={17} />
+                <span>{error}</span>
+              </div>
+            ) : null}
+
+            <button
+              className="investigate-button"
+              onClick={handleInvestigate}
+              disabled={loading}
+            >
               <BrainCircuit size={17} />
-              Investigate with Factory Memory
+              {loading
+                ? "Investigating with Factory Memory..."
+                : "Investigate with Factory Memory"}
             </button>
           </div>
         </section>
