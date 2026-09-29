@@ -2,8 +2,22 @@ import {
   ChevronRight,
   CircleCheck,
 } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
-function Topbar({ currentPage = "Overview" }) {
+function Topbar() {
+  const { pathname } = useLocation();
+  const pageNames = {
+    "/": "Overview",
+    "/report-incident": "Incidents",
+    "/investigation": "Investigation",
+    "/resolution": "Resolution",
+    "/factory-memory": "Factory Memory",
+    "/machines": "Machines",
+    "/history": "History",
+    "/settings": "Settings",
+  };
+  const currentPage = pageNames[pathname] || "Overview";
+
   return (
     <header className="topbar">
       <div className="breadcrumb">

@@ -19,7 +19,7 @@ function App() {
         <Sidebar />
 
         <main className="main-content">
-          <Topbar currentPage="Overview" />
+          <Topbar />
 
           <div className="page-content">
             <Routes>

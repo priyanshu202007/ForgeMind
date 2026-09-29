@@ -82,12 +82,23 @@ function Investigation() {
         </div>
       </div>
 
+      <div className="investigation-flow" aria-label="Investigation workflow">
+        <span className="investigation-flow-step current">Current incident</span>
+        <span className="investigation-flow-arrow" aria-hidden="true">→</span>
+        <span className="investigation-flow-step memory">Hindsight retrieves</span>
+        <span className="investigation-flow-arrow" aria-hidden="true">→</span>
+        <span className="investigation-flow-step evidence">Historical evidence</span>
+        <span className="investigation-flow-arrow" aria-hidden="true">→</span>
+        <span className="investigation-flow-step reasoning">AI recommendations</span>
+      </div>
+
       <div className="investigation-grid">
         <section className="panel investigation-main">
           <div className="panel-header">
             <div>
-              <h2>Incident understanding</h2>
-              <p>Current incident context</p>
+              <span className="investigation-kicker">CURRENT INCIDENT</span>
+              <h2>Incident context</h2>
+              <p>Reported details used for this investigation</p>
             </div>
 
             <BrainCircuit size={20} />
@@ -118,33 +129,35 @@ function Investigation() {
           </div>
 
           <div className="investigation-section">
-            <div className="section-title">
-              <Search size={16} />
-              Searching Factory Memory
+            <div className="evidence-heading">
+              <div>
+                <span className="investigation-kicker">HISTORICAL EVIDENCE</span>
+                <h2>Relevant memories</h2>
+              </div>
+              <span className="hindsight-memory-label">
+                <BrainCircuit size={13} />
+                HINDSIGHT MEMORY
+              </span>
             </div>
 
             <div className="search-status">
-              <div className="status-dot" />
+              <Search size={15} />
 
               <span>
-                Retrieved {result.memory?.retrievedCount || 0} historical
-                memories from Hindsight.
+                {result.memory?.retrievedCount || 0} historical memories retrieved
               </span>
             </div>
           </div>
 
-          <div className="investigation-section">
-            <div className="section-title">
-              <BrainCircuit size={16} />
-              Relevant memories
-            </div>
-
+          <div className="investigation-section historical-evidence-list">
             {historicalEvidence.length === 0 ? (
-              <div className="memory-result">
+              <div className="memory-result evidence-empty-state">
+                <Search size={20} />
                 <h3>No historical evidence found</h3>
                 <p>
-                  Hindsight did not return matching historical evidence
-                  for this incident.
+                  No relevant historical memory was retrieved for this incident.
+                  The investigation summary below is shown without a matching
+                  memory card.
                 </p>
               </div>
             ) : (
@@ -161,8 +174,9 @@ function Investigation() {
         <aside className="panel recommendation-panel">
           <div className="panel-header">
             <div>
-              <h2>AI investigation</h2>
-              <p>Evidence-based reasoning</p>
+              <span className="investigation-kicker">AI REASONING</span>
+              <h2>Investigation</h2>
+              <p>Summary and recommended next steps</p>
             </div>
 
             <Sparkles size={19} />
@@ -170,7 +184,7 @@ function Investigation() {
 
           <div className="recommendation-content">
             <div className="recommendation-label">
-              HISTORICAL ANALYSIS
+              INVESTIGATION SUMMARY
             </div>
 
             <h3>{result.summary}</h3>
@@ -178,17 +192,6 @@ function Investigation() {
             <div className="confidence">
               <span>Historical memories retrieved</span>
               <strong>{historicalEvidence.length}</strong>
-            </div>
-
-            <div className="confidence-bar">
-              <div
-                style={{
-                  width: `${Math.min(
-                    historicalEvidence.length * 30,
-                    100
-                  )}%`,
-                }}
-              />
             </div>
 
             <div className="recommended-action">
@@ -236,27 +239,26 @@ function Investigation() {
 }
 
 function MemoryResult({ memory }) {
-  const score =
-    typeof memory.relevance === "number"
-      ? memory.relevance.toFixed(2)
-      : "Historical";
+  const hasRelevance = typeof memory.relevance === "number";
 
   return (
-    <div className="memory-result">
+    <article className="memory-result">
       <div className="memory-result-top">
         <span>
           {memory.type || "memory"} · {memory.memoryId}
         </span>
 
-        <strong>{score} relevance</strong>
+        {hasRelevance && (
+          <strong>{memory.relevance.toFixed(2)} relevance</strong>
+        )}
       </div>
 
-      <h3>{memory.summary}</h3>
+      <h3>{memory.summary || "Historical memory"}</h3>
 
-      <p>
-        Source: {memory.source || "hindsight"}
-      </p>
-    </div>
+      {memory.source && (
+        <p className="memory-source">Source: {memory.source}</p>
+      )}
+    </article>
   );
 }
 

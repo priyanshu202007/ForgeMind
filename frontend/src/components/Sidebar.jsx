@@ -31,7 +31,7 @@ function Sidebar() {
         OPERATIONS
       </div>
 
-      <nav className="navigation">
+      <nav className="navigation" aria-label="Main navigation">
 
         {/* OVERVIEW */}
         <NavLink

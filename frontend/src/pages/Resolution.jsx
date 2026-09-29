@@ -1,5 +1,6 @@
 import {
   ArrowLeft,
+  AlertTriangle,
   BrainCircuit,
   CheckCircle2,
   Save,
@@ -113,6 +114,16 @@ function Resolution() {
         </div>
       </div>
 
+      <div className="resolution-loop" aria-label="Resolution learning loop">
+        <span>AI evidence</span>
+        <span aria-hidden="true">→</span>
+        <span>Engineer action</span>
+        <span aria-hidden="true">→</span>
+        <span>Observed outcome</span>
+        <span aria-hidden="true">→</span>
+        <span>Future factory memory</span>
+      </div>
+
       <div className="resolution-grid">
         <section className="panel resolution-form-panel">
           <div className="panel-header">
@@ -141,13 +152,13 @@ function Resolution() {
                 <strong>{incident.title}</strong>
               </div>
 
-              <div>
+              <div className="resolution-summary-evidence">
                 <span>Suggested evidence</span>
                 <strong>{suggestedCause}</strong>
               </div>
             </div>
 
-            <label>
+            <label className="resolution-field cause-field">
               Root cause confirmed
               <select
                 value={rootCause}
@@ -164,7 +175,7 @@ function Resolution() {
               </select>
             </label>
 
-            <label>
+            <label className="resolution-field action-field">
               Action taken
               <textarea
                 rows="5"
@@ -174,7 +185,7 @@ function Resolution() {
               />
             </label>
 
-            <label>
+            <label className="resolution-field outcome-field">
               Outcome
               <select
                 value={outcome}
@@ -189,7 +200,7 @@ function Resolution() {
               </select>
             </label>
 
-            <label>
+            <label className="resolution-field notes-field">
               Operator notes
               <textarea
                 rows="4"
@@ -200,7 +211,8 @@ function Resolution() {
             </label>
 
             {error ? (
-              <div className="memory-note">
+              <div className="memory-note resolution-error-state">
+                <AlertTriangle size={17} />
                 <span>{error}</span>
               </div>
             ) : null}
@@ -236,8 +248,9 @@ function Resolution() {
         <aside className="panel learning-panel">
           <div className="panel-header">
             <div>
-              <h2>Memory update</h2>
-              <p>What Factory Memory will learn</p>
+              <span className="resolution-memory-kicker">LEARNING LOOP</span>
+              <h2>Factory Memory learning loop</h2>
+              <p>Review what this resolution contributes</p>
             </div>
 
             <BrainCircuit size={20} />
@@ -251,8 +264,8 @@ function Resolution() {
             <h3>Turn this incident into experience</h3>
 
             <p>
-              Once the resolution is confirmed, the outcome becomes
-              part of the factory's operational memory.
+              Once saved, this outcome becomes searchable experience
+              for future investigations.
             </p>
 
             <div className="learning-flow">

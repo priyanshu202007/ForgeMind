@@ -17,11 +17,13 @@ function Dashboard() {
         <div>
           <div className="eyebrow">FACTORY INTELLIGENCE</div>
 
-          <h1>Good morning, Ravi.</h1>
+          <div className="dashboard-title-row">
+            <h1>Factory overview</h1>
+            <span className="demo-environment-badge">DEMO FACTORY</span>
+          </div>
 
           <p>
-            Here's what your factory memory is seeing across today's
-            operations.
+            Explore how ForgeMind connects factory incidents with operational memory.
           </p>
         </div>
 
@@ -38,7 +40,7 @@ function Dashboard() {
           icon={<AlertTriangle size={19} />}
           title="Active incidents"
           value="3"
-          description="2 high priority"
+          description="Sample · 2 high priority"
           type="warning"
         />
 
@@ -46,7 +48,7 @@ function Dashboard() {
           icon={<Gauge size={19} />}
           title="Machines online"
           value="47 / 50"
-          description="94% availability"
+          description="Sample · 94% availability"
           type="success"
         />
 
@@ -54,7 +56,7 @@ function Dashboard() {
           icon={<CheckCircle2 size={19} />}
           title="Resolved today"
           value="18"
-          description="+12% vs. average"
+          description="Sample · +12% vs. average"
           type="info"
         />
 
@@ -62,7 +64,7 @@ function Dashboard() {
           icon={<BrainCircuit size={19} />}
           title="Memory experiences"
           value="1,284"
-          description="+26 this week"
+          description="Sample · +26 this week"
           type="memory"
         />
       </section>
@@ -72,7 +74,7 @@ function Dashboard() {
           <div className="panel-header">
             <div>
               <h2>Recent incidents</h2>
-              <p>Live operational events from the plant.</p>
+              <p>Sample incident records for demonstration.</p>
             </div>
 
             <button
@@ -122,7 +124,7 @@ function Dashboard() {
             <div>
               <h2>Factory Memory</h2>
               <p>
-                Operational knowledge accumulated over time.
+                How Hindsight memory supports investigation. Figures are sample data.
               </p>
             </div>
 
@@ -133,7 +135,33 @@ function Dashboard() {
             <div className="memory-number">1,284</div>
 
             <div className="memory-label">
-              operational experiences
+              sample operational experiences
+            </div>
+          </div>
+
+          <div className="memory-journey" aria-label="Factory Memory workflow">
+            <div className="memory-journey-step">
+              <span>01</span>
+              <strong>Historical incidents</strong>
+              <small>Past factory experience</small>
+            </div>
+            <div className="memory-journey-arrow" aria-hidden="true">↓</div>
+            <div className="memory-journey-step">
+              <span>02</span>
+              <strong>Hindsight retrieves</strong>
+              <small>Relevant memories</small>
+            </div>
+            <div className="memory-journey-arrow" aria-hidden="true">↓</div>
+            <div className="memory-journey-step">
+              <span>03</span>
+              <strong>AI investigates</strong>
+              <small>Evidence-informed analysis</small>
+            </div>
+            <div className="memory-journey-arrow" aria-hidden="true">↓</div>
+            <div className="memory-journey-step">
+              <span>04</span>
+              <strong>Outcome retained</strong>
+              <small>Future factory memory</small>
             </div>
           </div>
 
@@ -141,25 +169,25 @@ function Dashboard() {
             <BrainCircuit size={18} />
 
             <p>
-              3 recent incidents have patterns similar to
-              previously resolved spindle and vibration issues.
+              Resolved outcomes can become searchable experience for future
+              investigations. The figures shown here are illustrative demo data.
             </p>
           </div>
 
           <div className="memory-stats">
             <div>
               <strong>92%</strong>
-              <span>retrieval relevance</span>
+                <span>sample retrieval relevance</span>
             </div>
 
             <div>
               <strong>86%</strong>
-              <span>resolution success</span>
+                <span>sample resolution success</span>
             </div>
 
             <div>
               <strong>26</strong>
-              <span>new memories</span>
+                <span>sample new memories</span>
             </div>
           </div>
 
@@ -177,9 +205,7 @@ function Dashboard() {
         <div className="panel-header">
           <div>
             <h2>Machine health</h2>
-            <p>
-              Current state across critical production assets.
-            </p>
+            <p>Sample machine states and load values for demonstration.</p>
           </div>
 
           <button
