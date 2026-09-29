@@ -6,13 +6,13 @@ class Recommendation(BaseModel):
     action: str
     reason: str
 
-
 class HistoricalEvidence(BaseModel):
     memoryId: str
-    relevance: str
+    relevance: float
+    type: str
     summary: str
-    outcome: str
     source: str
+    tags: list[str] = Field(default_factory=list)
 
 
 class MemoryInfo(BaseModel):
