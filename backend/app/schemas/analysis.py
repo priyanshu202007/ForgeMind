@@ -1,3 +1,5 @@
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -23,6 +25,10 @@ class MemoryInfo(BaseModel):
 class AnalysisResponse(BaseModel):
     incidentId: str
     summary: str
-    recommendations: list[Recommendation] = Field(default_factory=list)
-    historicalEvidence: list[HistoricalEvidence] = Field(default_factory=list)
-    memory: MemoryInfo
+    likelyCauses: Any
+    recommendations: Any
+    warnings: Any
+    lessonsLearned: Any
+    historicalEvidence: Any
+    memory: Any
+    reflection: Any
