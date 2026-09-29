@@ -11,10 +11,11 @@ class Recommendation(BaseModel):
 
 class HistoricalEvidence(BaseModel):
     memoryId: str
-    relevance: str
+    relevance: float | None = None
+    type: str | None = None
     summary: str
-    outcome: str
     source: str
+    tags: list[str] = []
 
 
 class MemoryInfo(BaseModel):
@@ -25,10 +26,7 @@ class MemoryInfo(BaseModel):
 class AnalysisResponse(BaseModel):
     incidentId: str
     summary: str
-    likelyCauses: Any
-    recommendations: Any
-    warnings: Any
-    lessonsLearned: Any
-    historicalEvidence: Any
-    memory: Any
-    reflection: Any
+    recommendations: list[Recommendation] = []
+    historicalEvidence: list[HistoricalEvidence] = []
+    memory: MemoryInfo
+    source: dict[str, Any] = {}

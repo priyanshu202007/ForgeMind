@@ -3,7 +3,10 @@ const path = require("node:path");
 
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
-const { retainIncidentOutcome } = require("./services/incidentMemoryService");
+const {
+  analyzeIncidentWithMemory,
+  retainIncidentOutcome
+} = require("./services/incidentMemoryService");
 
 const PORT = 8101;
 const MAX_BODY_SIZE = 1024 * 1024;
@@ -45,40 +48,8 @@ async function readJsonBody(request) {
   }
 }
 
-function analyzeIncident(incident) {
-  return {
-    incidentId: incident.incidentId,
-    summary: "Historical analysis found a similar spindle overheating incident.",
-    likelyCauses: [
-      {
-        cause: "Reduced coolant flow",
-        evidenceMemoryIds: ["MOCK-MEM-001"],
-      },
-    ],
-    recommendations: [
-      {
-        step: 1,
-        action: "Inspect coolant filter and coolant flow",
-        reason: "A previous similar incident was associated with reduced coolant flow.",
-        evidenceMemoryIds: ["MOCK-MEM-001"],
-      },
-    ],
-    warnings: [],
-    lessonsLearned: ["Check coolant flow before replacing the spindle."],
-    historicalEvidence: [
-      {
-        memoryId: "MOCK-MEM-001",
-        relevance: 0.95,
-        type: "lesson",
-        summary:
-          "Reduced coolant flow was associated with a previous spindle overheating incident.",
-        source: "hindsight",
-        tags: ["mock", "factory"],
-      },
-    ],
-    memory: { used: true, retrievedCount: 1 },
-    reflection: { rawText: "Mock M1 reflection for integration testing." },
-  };
+async function analyzeIncident(incident) {
+  return analyzeIncidentWithMemory(incident);
 }
 
 async function retainOutcome(outcome) {
@@ -91,6 +62,7 @@ async function handleRequest(request, response) {
     "/api/m1/analyze": analyzeIncident,
     "/api/m1/outcome": retainOutcome,
   };
+
   const handler = routeHandlers[request.url];
 
   if (!handler) {
@@ -106,6 +78,7 @@ async function handleRequest(request, response) {
 
   try {
     const payload = await readJsonBody(request);
+
     if (
       !payload ||
       typeof payload !== "object" ||
@@ -113,7 +86,9 @@ async function handleRequest(request, response) {
       typeof payload.incidentId !== "string" ||
       !payload.incidentId.trim()
     ) {
-      sendJson(response, 400, { error: "A non-empty incidentId is required." });
+      sendJson(response, 400, {
+        error: "A non-empty incidentId is required."
+      });
       return;
     }
 
@@ -128,7 +103,11 @@ async function handleRequest(request, response) {
       statusCode: error?.statusCode || null,
       details,
     });
-    sendJson(response, statusCode, { error: details, details });
+
+    sendJson(response, statusCode, {
+      error: details,
+      details
+    });
   }
 }
 
@@ -136,5 +115,7 @@ const server = http.createServer(handleRequest);
 
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`M1 service listening on http://127.0.0.1:${PORT}`);
-  console.log("Registered POST routes: /api/m1/analyze, /api/m1/outcome");
+  console.log(
+    "Registered POST routes: /api/m1/analyze, /api/m1/outcome"
+  );
 });
