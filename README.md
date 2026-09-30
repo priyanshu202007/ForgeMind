@@ -763,13 +763,6 @@ Every resolved incident can therefore contribute to the knowledge available for 
 
 ---
 
-## Team
-
-**ForgeMind — Hack with Hyderabad 3.0**
-
-Built as a collaborative prototype focused on AI-powered factory operational memory.
-
----
 
 ## Status
 
