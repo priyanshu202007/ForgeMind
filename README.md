@@ -310,29 +310,62 @@ ForgeMind/
 ├── backend/
 │   ├── app/
 │   │   ├── api/
-│   │   └── schemas/
+│   │   │   ├── analysis.py
+│   │   │   ├── incidents.py
+│   │   │   ├── machines.py
+│   │   │   ├── outcomes.py
+│   │   │   └── search.py
+│   │   ├── schemas/
+│   │   │   ├── analysis.py
+│   │   │   ├── factory.py
+│   │   │   ├── incident.py
+│   │   │   ├── outcome.py
+│   │   │   └── search.py
+│   │   └── main.py
 │   └── requirements.txt
 │
 ├── frontend/
+│   ├── public/
 │   ├── src/
+│   │   ├── assets/
 │   │   ├── components/
 │   │   ├── pages/
-│   │   └── services/
-│   └── package.json
+│   │   ├── services/
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── package.json
+│   ├── package-lock.json
+│   └── vite.config.js
 │
 ├── m1/
 │   ├── ai/
+│   │   └── response.js
 │   ├── hindsight/
+│   │   ├── client.js
+│   │   ├── connection-test.js
+│   │   ├── memory-test.js
+│   │   ├── recall.js
+│   │   ├── reflect.js
+│   │   ├── retain.js
+│   │   └── README.md
 │   ├── services/
-│   └── README.md
+│   │   └── incidentMemoryService.js
+│   ├── README.md
+│   ├── server.js
+│   └── test-memory-service.js
 │
 ├── data/
-│   ├── machines.json
+│   ├── seed_data/
+│   │   └── demo_incidents.json
 │   ├── incidents.json
-│   └── test_cases.json
+│   ├── machines.json
+│   ├── test_cases.json
+│   └── README.md
 │
 ├── docs/
-│   └── architecture.md
+│   ├── architecture.md
+│   └── contracts.md
 │
 ├── screenshots/
 │   ├── 01-dashboard.png
@@ -343,8 +376,16 @@ ForgeMind/
 │   ├── 06-backend-api.png
 │   └── 07-api-response.png
 │
+├── .env.example
+├── .gitignore
+├── LICENSE
+├── article.md
+├── factory_data.py
+├── factory_rules.py
+├── incident_search.py
 ├── package.json
 ├── package-lock.json
+├── test_search.py
 └── README.md
 ```
 
@@ -445,25 +486,46 @@ Health check:
 
 `http://127.0.0.1:8000/api/health`
 
-### M1 + Hindsight Configuration
+### M1 AI + Hindsight Service
 
-The memory layer uses:
+The M1 layer owns ForgeMind's AI reasoning and operational-memory boundary.
+
+Configure the required environment variables in a local `.env` file:
 
 ```text
 HINDSIGHT_BASE_URL=
 HINDSIGHT_API_KEY=
-HINDSIGHT_BANK_ID=
-```
-
-The Groq reasoning integration uses:
-
-```text
+HINDSIGHT_BANK_ID=forgemind-factory
 GROQ_API_KEY=
 ```
 
 Do not commit real credentials to GitHub.
 
-Use a local `.env` file for development.
+From the repository root, install the Node.js dependencies:
+
+```bash
+npm install
+```
+
+Start the M1 service:
+
+```bash
+node m1/server.js
+```
+
+The M1 service runs on:
+
+```text
+http://127.0.0.1:8101
+```
+
+M1 provides:
+
+* `POST /api/m1/analyze` — analyze an incident using Hindsight memory
+* `POST /api/m1/outcome` — retain a resolved incident outcome in Hindsight
+
+Keep the M1 service running while using the FastAPI backend and frontend.
+
 
 > **Integration note:** the current `main` branch contains the M1 memory adapters under `m1/`. The standalone M1 server/runtime integration is being consolidated separately; do not assume a `m1-runtime/` directory exists on `main`.
 
