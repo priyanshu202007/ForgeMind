@@ -463,15 +463,46 @@ From the repository root:
 
 ```bash
 python -m venv .venv
+```
 
-# Windows
-.venv\Scripts\activate
+**Windows PowerShell:**
 
-# macOS / Linux
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\.venv\Scripts\Activate.ps1
+```
+
+**Windows Command Prompt:**
+
+```cmd
+.venv\Scripts\activate.bat
+```
+
+**macOS / Linux:**
+
+```bash
 source .venv/bin/activate
+```
 
+Install the backend dependencies:
+
+```bash
 python -m pip install -r backend/requirements.txt
-python -m uvicorn app.main:app --app-dir backend --reload --port 8000
+```
+
+The backend imports the root-level `incident_search.py` module, so both the repository root and `backend/` must be available on Python's module path.
+
+**Windows PowerShell:**
+
+```powershell
+$env:PYTHONPATH=".;backend"
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+**macOS / Linux:**
+
+```bash
+PYTHONPATH=.:backend python -m uvicorn app.main:app --reload --port 8000
 ```
 
 Backend:
@@ -485,6 +516,16 @@ Swagger:
 Health check:
 
 `http://127.0.0.1:8000/api/health`
+
+Expected response:
+
+```json
+{
+  "status": "ok"
+}
+```
+
+Keep the FastAPI backend running while using the frontend.
 
 ### M1 AI + Hindsight Service
 
